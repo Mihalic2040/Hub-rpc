@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"time"
 
-	hubrpc "github.com/Mihalic2040/Hub-rpc.git"
-	"github.com/Mihalic2040/Hub-rpc.git/src/proto/api"
+	hubrpc "github.com/Mihalic2040/Hub-rpc"
+	"github.com/Mihalic2040/Hub-rpc/src/proto/api"
 	"github.com/libp2p/go-libp2p"
 	dht "github.com/libp2p/go-libp2p-kad-dht"
 	"github.com/libp2p/go-libp2p/core/network"

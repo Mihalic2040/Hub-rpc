@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/Mihalic2040/Hub-rpc.git/src/proto/api"
+	"github.com/Mihalic2040/Hub-rpc/src/proto/api"
 	dht "github.com/libp2p/go-libp2p-kad-dht"
 	"github.com/libp2p/go-libp2p/core/host"
 	"github.com/libp2p/go-libp2p/core/peer"

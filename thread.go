@@ -3,7 +3,7 @@ package hubrpc
 import (
 	"fmt"
 
-	"github.com/Mihalic2040/Hub-rpc.git/src/proto/api"
+	"github.com/Mihalic2040/Hub-rpc/src/proto/api"
 )
 
 func Thread(handlers HandlerMap, data *api.Request) (api.Response, error) {

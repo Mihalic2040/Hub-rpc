@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Mihalic2040/Hub-rpc.git/src/proto/api"
+	"github.com/Mihalic2040/Hub-rpc/src/proto/api"
 	"github.com/libp2p/go-libp2p/core/network"
 	"google.golang.org/protobuf/proto"
 )

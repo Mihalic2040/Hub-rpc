@@ -1,4 +1,4 @@
-module github.com/Mihalic2040/Hub-rpc.git
+module github.com/Mihalic2040/Hub-rpc
 
 go 1.20
 
