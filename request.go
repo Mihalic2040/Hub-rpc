@@ -14,20 +14,20 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-func NewRequest(peerID string, data *api.Request, protocolId string, dht dht.IpfsDHT, host host.Host) (*api.Response, error) {
+func NewRequest(ctx context.Context, peerID string, data *api.Request, protocolId string, dht dht.IpfsDHT, host host.Host) (*api.Response, error) {
 	// Find a peer by its ID
 	targetPeerID, err := peer.Decode(peerID)
 	if err != nil {
 		return nil, fmt.Errorf("Invalid peer ID: %v", err)
 	}
 
-	peerInfo, err := dht.FindPeer(context.Background(), targetPeerID)
+	peerInfo, err := dht.FindPeer(ctx, targetPeerID)
 	if err != nil {
 		return nil, fmt.Errorf("Fail to find peer: %v", err)
 	}
 
 	// Create a stream to the peer
-	stream, err := host.NewStream(context.Background(), peerInfo.ID, protocol.ID(protocolId))
+	stream, err := host.NewStream(ctx, peerInfo.ID, protocol.ID(protocolId))
 	if err != nil {
 		return nil, fmt.Errorf("Failed to create stream: %v", err)
 	}

@@ -142,7 +142,7 @@ func main() {
 	for {
 		time.Sleep(time.Second * 1)
 		log.Println(host.ID().String())
-		res, err := hubrpc.NewRequest(host.ID().String(), &data, endpoint, *kademliaDHT2, host2)
+		res, err := hubrpc.NewRequest(context.Background(), host.ID().String(), &data, endpoint, *kademliaDHT2, host2)
 		if err != nil {
 			log.Println(err)
 		}
