@@ -6,8 +6,13 @@ import (
 	"log"
 	"strconv"
 
+	hubrpc "github.com/Mihalic2040/Hub-rpc"
+	"github.com/Mihalic2040/Hub-rpc/src/proto/api"
 	"github.com/libp2p/go-libp2p"
 	dht "github.com/libp2p/go-libp2p-kad-dht"
+	"github.com/libp2p/go-libp2p/core/network"
+	"github.com/libp2p/go-libp2p/core/peer"
+	"github.com/libp2p/go-libp2p/core/protocol"
 	"github.com/libp2p/go-libp2p/p2p/muxer/mplex"
 	"github.com/libp2p/go-libp2p/p2p/muxer/yamux"
 	quic "github.com/libp2p/go-libp2p/p2p/transport/quic"
@@ -18,8 +23,13 @@ import (
 
 var endpoint = "/hub/0.0.1"
 
-var port = "7777"
+var port = "0"
 var ip = "0.0.0.0"
+
+func Myhandler(input *api.Request) (response api.Response, err error) {
+
+	return api.Response{Payload: input.Payload, Status: 200}, nil
+}
 
 func main() {
 	log.Println("Starting server...")
@@ -72,6 +82,14 @@ func main() {
 
 	//register rpc server
 
+	handlers := hubrpc.HandlerMap{}
+
+	handlers.HandleFunc("/", Myhandler)
+
+	host.SetStreamHandler(protocol.ID(endpoint), func(stream network.Stream) {
+		hubrpc.Stream_handler(stream, handlers)
+	})
+
 	kademliaDHT, err := dht.New(context.Background(), host, dht.Mode(dht.ModeAutoServer))
 	if err != nil {
 		panic(err)
@@ -80,8 +98,18 @@ func main() {
 	kademliaDHT.Bootstrap(context.Background())
 
 	log.Println(host.Addrs())
-	log.Println(host.ID().String())
 
+	sourceMultiAddrcnn, err := multiaddr.NewMultiaddr(fmt.Sprintf("/ip4/127.0.0.1/tcp/7778/ws/p2p/12D3KooWAipT8QmimC7WWnhRBcyjaC7geb7Z9ynygkFHJyPUyHKc"))
+	if err != nil {
+		log.Println("[DHT:Bootstrap] Fail to parse multiaddr: ", err)
+	}
+
+	peerinfo, err := peer.AddrInfoFromP2pAddr(sourceMultiAddrcnn)
+
+	host.Connect(context.Background(), *peerinfo)
+
+	log.Println(host.Peerstore().Peers().String())
 	for {
+
 	}
 }
